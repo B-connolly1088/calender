@@ -30,6 +30,10 @@ $(function () {
 var currentDay = $("#currentDay")//variable to store the value of the current day
 var date = new Date()//date getting
 var todaysDate = date.toLocaleDateString();
+
+$("#currentDay").text(todaysDate);
+
+
 // console.log(todaysDate)
 
 
@@ -56,20 +60,31 @@ for (let i = 0; i < timeBlocks.length; i++) {
   var id = timeBlock.id
   console.log(notes[id])
   var currentTimeBlock = parseInt(id.split("-")[1]);
+  var textArea = $(timeBlock).children()[1];
+  textArea.textContent = notes[id]
+  // console.log($(timeBlock).children()[1]);
   
   if (currentTimeBlock < currentHour) {
     // timeBlock.classList.add("past");
     $(timeBlock).addClass("past")
-    timeBlock.classList.remove("present");
-    timeBlock.classList.remove("future");
+    // timeBlock.classList.remove("present");
+    $(timeBlock).removeClass("present")
+    // timeBlock.classList.remove("future");
+    $(timeBlock).removeClass("future")
   } else if (currentTimeBlock === currentHour) {
-    timeBlock.classList.remove("past");
-    timeBlock.classList.add("present");
-    timeBlock.classList.add("future");
+    // timeBlock.classList.remove("past");
+    $(timeBlock).removeClass("past");
+    // timeBlock.classList.add("present");
+    $(timeBlock).addClass("present");
+    // timeBlock.classList.add("future");
+    $(timeBlock).addClass("future");
   } else {
-    timeBlock.classList.remove("past");
-    timeBlock.classList.remove("present");
-    timeBlock.classList.add("future")
+    // timeBlock.classList.remove("past");
+    $(timeBlock).removeClass("past");
+    // timeBlock.classList.remove("present");
+    $(timeBlock).removeClass("present");
+    // timeBlock.classList.add("future")
+    $(timeBlock).addClass("future");
   }
 }
 
@@ -87,8 +102,6 @@ $(".saveBtn").on("click", function(event) {
 
 
 
-
-//in for loop try and target the textarea with jquery.children $(timeblock).children
 
 
 
