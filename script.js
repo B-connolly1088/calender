@@ -21,25 +21,45 @@
   //
   // TODO: Add code to display the current date in the header of the page.
 
-
+ 
 
 $(function () {
 
-var currentDay = document.getElementById("currentDay")//variable to store the value of the current day
+  var notes = {}
+
+var currentDay = $("#currentDay")//variable to store the value of the current day
 var date = new Date()//date getting
 var todaysDate = date.toLocaleDateString();
-console.log(todaysDate)
+// console.log(todaysDate)
+
+
+function fetchFromLocalStorage() {
+  var theStore = localStorage.getItem("notes")
+
+  if (theStore) {
+    notes = JSON.parse(theStore);
+  }
+  
+}
 
 currentDay.textContent = todaysDate;//updating the textcontent of the variable durrentDay
 
 
 var currentHour = new Date().getHours();
-var timeBlocks = document.getElementsByClassName("time-block");
+var timeBlocks = $(".time-block");
+// console.log(timeBlocks)
+
+fetchFromLocalStorage();
 for (let i = 0; i < timeBlocks.length; i++) {
   var timeBlock = timeBlocks[i];
-  var currentTimeBlock = parseInt(timeBlock.id.split("-")[2]);
+  // console.log(timeBlock)
+  var id = timeBlock.id
+  console.log(notes[id])
+  var currentTimeBlock = parseInt(id.split("-")[1]);
+  
   if (currentTimeBlock < currentHour) {
-    timeBlock.classList.add("past");
+    // timeBlock.classList.add("past");
+    $(timeBlock).addClass("past")
     timeBlock.classList.remove("present");
     timeBlock.classList.remove("future");
   } else if (currentTimeBlock === currentHour) {
@@ -53,12 +73,22 @@ for (let i = 0; i < timeBlocks.length; i++) {
   }
 }
 
-var saveButtons = document.addEventListener("click", ".saveBtn");
+$(".saveBtn").on("click", function(event) {
+
+  var timeBlock = $(event.target).parent().attr("id");
+
+  var userInput = $(event.target).siblings()[1].value;
+  console.log(userInput);
+  notes[timeBlock] = userInput;
+  localStorage.setItem("notes", JSON.stringify(notes))
+
+
+})
 
 
 
 
-
+//in for loop try and target the textarea with jquery.children $(timeblock).children
 
 
 
